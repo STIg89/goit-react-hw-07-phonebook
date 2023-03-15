@@ -1,16 +1,29 @@
 import { List, Item, DelButton } from './ContactList.styled';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact, getContacts } from 'redux/contactsSlice';
-import { getFilterValue } from 'redux/filterSlice';
+import { deleteContact, fetchContacts } from 'redux/operations';
+import {
+  getFilterValue,
+  getContacts,
+  getLoadingStatus,
+  getError,
+} from 'redux/selectors';
 import {
   noMatchesNotify,
-  noContactsNotify,
+  onErrorNotify,
 } from 'components/Notification/Notification';
+import { Spinner } from 'components/Spinner/spinner';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
   const filter = useSelector(getFilterValue);
   const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getLoadingStatus);
+  const onError = useSelector(getError);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const filteredContacts = () => {
     const normalizedFilter = filter.toLowerCase();
@@ -20,18 +33,19 @@ export const ContactList = () => {
     if (filtered.length === 0 && filter) {
       noMatchesNotify();
     }
-    if (contacts.length === 0) {
-      noContactsNotify();
-    }
 
+    if (onError) {
+      onErrorNotify();
+    }
     return filtered;
   };
 
   return (
     <List>
-      {filteredContacts().map(({ id, name, number }) => (
+      {isLoading && <Spinner />}
+      {filteredContacts().map(({ id, name, phone }) => (
         <Item key={id}>
-          {name}: {number}
+          {name}: {phone}
           <DelButton type="button" onClick={() => dispatch(deleteContact(id))}>
             Delete
           </DelButton>

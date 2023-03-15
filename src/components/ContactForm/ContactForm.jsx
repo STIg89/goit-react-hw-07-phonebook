@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Form, Label, Input, Button } from './ContactForm.styled';
-import { nanoid } from 'nanoid';
 import { useSelector, useDispatch } from 'react-redux';
-import { getContacts, addContact } from 'redux/contactsSlice';
-import { Notification } from 'components/Notification/Notification';
+import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
+import {
+  Notification,
+  onSameNumberNotify,
+} from 'components/Notification/Notification';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
@@ -34,8 +37,11 @@ export const ContactForm = () => {
     ) {
       Notification(name);
       return;
+    } else if (contacts.find(contact => contact.phone === number)) {
+      onSameNumberNotify(number);
+      return;
     } else {
-      dispatch(addContact({ id: nanoid(4), name, number }));
+      dispatch(addContact({ name, phone: number }));
       resetForm();
     }
   };
