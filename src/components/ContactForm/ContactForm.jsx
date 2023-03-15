@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Form, Label, Input, Button } from './ContactForm.styled';
 import { useSelector, useDispatch } from 'react-redux';
-import { getContacts } from 'redux/selectors';
+import { getContacts, getLoadingStatus } from 'redux/selectors';
 import { addContact } from 'redux/operations';
 import {
   Notification,
@@ -13,6 +13,7 @@ export const ContactForm = () => {
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getLoadingStatus);
 
   const onInputChange = e => {
     const { name, value } = e.target;
@@ -77,7 +78,9 @@ export const ContactForm = () => {
           value={number}
         />
       </Label>
-      <Button type="submit">Add Contact</Button>
+      <Button type="submit" disabled={isLoading}>
+        Add Contact
+      </Button>
     </Form>
   );
 };

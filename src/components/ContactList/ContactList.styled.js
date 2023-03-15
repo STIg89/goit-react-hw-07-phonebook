@@ -9,6 +9,7 @@ export const List = styled.ul`
   gap: 20px;
   align-items: center;
   margin-top: 30px;
+  min-width: 620px;
 `;
 
 export const Item = styled.li`

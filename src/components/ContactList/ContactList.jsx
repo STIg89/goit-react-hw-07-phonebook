@@ -11,6 +11,7 @@ import {
 import {
   noMatchesNotify,
   onErrorNotify,
+  noContactsNotify,
 } from 'components/Notification/Notification';
 import { Spinner } from 'components/Spinner/spinner';
 
@@ -33,11 +34,17 @@ export const ContactList = () => {
     if (filtered.length === 0 && filter) {
       noMatchesNotify();
     }
-
     if (onError) {
       onErrorNotify();
     }
     return filtered;
+  };
+
+  const removeContact = id => {
+    dispatch(deleteContact(id));
+    if (contacts.length === 1) {
+      noContactsNotify();
+    }
   };
 
   return (
@@ -46,7 +53,11 @@ export const ContactList = () => {
       {filteredContacts().map(({ id, name, phone }) => (
         <Item key={id}>
           {name}: {phone}
-          <DelButton type="button" onClick={() => dispatch(deleteContact(id))}>
+          <DelButton
+            type="button"
+            disabled={isLoading}
+            onClick={() => removeContact(id)}
+          >
             Delete
           </DelButton>
         </Item>
