@@ -38,16 +38,17 @@ const isRejected = (state, action) => {
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: contacts,
-  extraReducers: {
-    [fetchContacts.pending]: isPending,
-    [fetchContacts.fulfilled]: isFulfilled,
-    [fetchContacts.rejected]: isRejected,
-    [addContact.pending]: isPending,
-    [addContact.fulfilled]: isFulfilled,
-    [addContact.rejected]: isRejected,
-    [deleteContact.pending]: isPending,
-    [deleteContact.fulfilled]: isFulfilled,
-    [deleteContact.rejected]: isRejected,
+  extraReducers: builder => {
+    builder
+      .addCase(fetchContacts.pending, isPending)
+      .addCase(fetchContacts.fulfilled, isFulfilled)
+      .addCase(fetchContacts.rejected, isRejected)
+      .addCase(addContact.pending, isPending)
+      .addCase(addContact.fulfilled, isFulfilled)
+      .addCase(addContact.rejected, isRejected)
+      .addCase(deleteContact.pending, isPending)
+      .addCase(deleteContact.fulfilled, isFulfilled)
+      .addCase(deleteContact.rejected, isRejected);
   },
 });
 export const contactsReducer = contactsSlice.reducer;
