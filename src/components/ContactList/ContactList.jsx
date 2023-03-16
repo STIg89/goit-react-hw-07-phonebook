@@ -3,24 +3,24 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact, fetchContacts } from 'redux/operations';
 import {
-  getFilterValue,
-  getContacts,
-  getLoadingStatus,
-  getError,
+  selectFilterValue,
+  selectContacts,
+  selectLoadingStatus,
+  selectErrorStatus,
 } from 'redux/selectors';
 import {
   noMatchesNotify,
   onErrorNotify,
   noContactsNotify,
-} from 'components/Notification/Notification';
-import { Spinner } from 'components/Spinner/spinner';
+} from 'utils/Notification/Notification';
+import { Spinner } from 'utils/Spinner/spinner';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(getFilterValue);
-  const contacts = useSelector(getContacts);
-  const isLoading = useSelector(getLoadingStatus);
-  const onError = useSelector(getError);
+  const filter = useSelector(selectFilterValue);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectLoadingStatus);
+  const onError = useSelector(selectErrorStatus);
 
   useEffect(() => {
     dispatch(fetchContacts());

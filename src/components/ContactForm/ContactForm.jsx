@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { Form, Label, Input, Button } from './ContactForm.styled';
 import { useSelector, useDispatch } from 'react-redux';
-import { getContacts, getLoadingStatus } from 'redux/selectors';
+import { selectContacts, selectLoadingStatus } from 'redux/selectors';
 import { addContact } from 'redux/operations';
 import {
   Notification,
   onSameNumberNotify,
-} from 'components/Notification/Notification';
+} from 'utils/Notification/Notification';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
-  const isLoading = useSelector(getLoadingStatus);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectLoadingStatus);
 
   const onInputChange = e => {
     const { name, value } = e.target;

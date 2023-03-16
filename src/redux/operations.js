@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { noContactsNotify } from 'components/Notification/Notification';
+import { noContactsNotify } from 'utils/Notification/Notification';
 
 axios.defaults.baseURL = 'https://6411b32c5d0c49b7c5b78124.mockapi.io';
 
